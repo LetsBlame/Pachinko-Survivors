@@ -25,6 +25,8 @@ class Game {
         this.hits = []; // Array de marcadores de daño en juego
         this.score = 0; // Puntuación de la partida
         this.last_time = 0; // Tiempo desde el último render()
+
+        requestAnimationFrame((time) => this.render(time)); //Si no se inicia el render() desde el principio, el juego produce efectos indeseados
     }
 
     // Loop principal del juego
@@ -37,19 +39,19 @@ class Game {
         const delta_time = (current_time - this.last_time) / 1000;
         this.last_time = current_time;
         
-        this.pachinko.draw(delta_time);
+        if(this.pachinko) this.pachinko.draw(delta_time);
         
-        this.player.update(delta_time);
+        if(this.player) this.player.update(delta_time);
 
-        this.enemies.forEach(enemy => {
+        if(this.enemies) this.enemies.forEach(enemy => {
             enemy.update(delta_time); 
         });
 
-        this.bullets.forEach(bullet => {
+        if(this.bullets) this.bullets.forEach(bullet => {
             bullet.update(delta_time);
         });
 
-        this.hits.forEach(hit => {
+        if(this.hits) this.hits.forEach(hit => {
             hit.draw();
         });
 
@@ -68,8 +70,6 @@ class Game {
         this.spawn_enemies();
 
         update_UI();
-
-        requestAnimationFrame((time) => this.render(time));
     }
 
     // Inicia una nueva ronda
