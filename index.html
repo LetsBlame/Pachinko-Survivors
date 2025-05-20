@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pachinko Survivors</title>
+        <!-- Todo el estilo del juego se encuentra en el archivo css -->
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <!-- Contenedor del juego -->
+        <div id="game-container">
+            <!-- Zona de pachinko -->
+            <div id="pachinko-side">
+                <!-- Contenedor de bolas en recarga -->
+                <div id="inventory">
+                    <div class="inventory-bar"></div>
+                    <div id="inventory-slots"></div>
+                </div>
+                <canvas id="pachinko-canvas"></canvas>
+            </div>
+            <!-- Zona de juego -->
+            <div id="action-side">
+                <canvas id="action-canvas"></canvas>
+                <canvas id="damage-canvas"></canvas>
+            </div>
+        </div>
+
+        <!-- Pantalla de inicio. Muestra una breve descripción y el botón de inicio -->
+        <div id="start-screen" class="overlay">
+            <h1>Pachinko Survivors</h1>
+            <center>
+            <h3>Sobrevive el máximo número de rondas posible.<br>
+                La dificultad aumenta por ronda, pero también la puntuación obtenida por derrotar enemigos.<br>
+                Al caer una bola del Pachinko de la izquierda, se dispara como bala en el juego a la derecha.<br>
+                La bala hace daño proporcional al número de rebotes que haya dado en el Pachinko.
+            </h3>
+            </center>
+            <button type="button" id="start-button">Comenzar Juego</button>
+        </div>
+
+        <!-- Pantalla de la tienda. Se muestra al finalizar una ronda -->
+        <div id="shop-screen" class="overlay hidden">
+            <h2>¡Ronda Completada!</h2>
+            <h3>Selecciona una mejora:</h3>
+            <h3><u>Una vez selecciona no podrás cambiar de opción</u></h3>
+            <!-- Opciones de la tienda. El data-index se usa para indicar a la función qué elemento se ha pulsado-->
+            <div id="shop-options">
+                <div class="shop-option" data-index="0">
+                    <h3 class="option-title">Option 1</h3>
+                    <p class="option-description">Description</p>
+                    <button class="shop-button">Seleccionar</button>
+                </div>
+                <div class="shop-option" data-index="1">
+                    <h3 class="option-title">Option 2</h3>
+                    <p class="option-description">Description</p>
+                    <button class="shop-button">Seleccionar</button>
+                </div>
+                <div class="shop-option" data-index="2">
+                    <h3 class="option-title">Option 3</h3>
+                    <p class="option-description">Description</p>
+                    <button class="shop-button">Seleccionar</button>
+                </div>
+            </div>
+            <!-- Botón para comenzar la siguiente ronda -->
+            <button type="button" id="next-round-button">Siguiente Ronda</button>
+        </div>
+
+        <!-- Pantalla de Game Over. Se muestra al perder el juego. Muestra la puntuación final y un botón para reiniciar el juego -->
+        <div id="game-over-screen" class="overlay hidden">
+            <h1>Game Over</h1>
+            <h3 id="final-score">Puntuación: 0</h3>
+            <h3 id="final-round">Ronda: 0</h3>
+            <button id="restart-button">Nuevo Juego</button>
+        </div>
+
+        <!-- HUD. Muestra el temporizador de la ronda actual, el número de ronda, la puntuación actual, y la vida del jugador -->
+        <div id="hud">
+            <div id="round-timer">Tiempo restante: 20</div>
+            <div id="round-number">Ronda: 0</div>
+            <div id="score-display">Puntuación: 0</div><br>
+            <label for="health-bar">Vida:</label>
+            <progress id="health-bar" value="100" max="100"></progress>
+        </div>
+
+        <!-- Todo el código del juego se encuentra en el archivo js -->
+        <script src="game.js"></script>
+    </body>
+</html>

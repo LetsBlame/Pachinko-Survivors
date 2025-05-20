@@ -1,0 +1,249 @@
+/* Ajusta todo el contenido del juego al borde de la página */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Establece el color y fuente base del texto, y declara variables de color */
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    overflow: hidden;
+
+    --background-01: #262335;
+    --background-02: #241b2f;
+    --background--03: rgba(23, 21, 32, 0.8);
+    --border-color: #443964;
+    --soft-red: #f96668;
+    --yellow : #ffc922;
+    --green: #64f1b0;
+}
+
+/* Div que contiene ambas partes del juego */
+#game-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+/*  Div que contiene el canvas de la zona de pachinko
+    Consiste en el 30% de la ventana  */
+#pachinko-side {
+    width: 30%;
+    height: 100%;
+    position: relative;
+    background-color: var(--background-02);
+    border-right: 2px solid var(--border-color);
+}
+
+/*  Div que contiene el canvas de la zona de juego,
+    y el canvas de los marcadores de daño.
+    Consiste en el 70% restante de la ventana  */
+#action-side {
+    position: relative;
+    width: 70%;
+    height: 100%;
+    background-color: var(--background-01);
+}
+
+/* Intento de hacer un efecto de daño al ser golpeado */
+.hurt {
+    animation: shake 0.5s ease-in-out;
+    background-color: rgba(255, 0, 0, 0.3);
+}
+
+/* Coloca los canvas rellenando el espacio del div sin márgenes */
+canvas {
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+/*  Se refiere a todos los elementos de la interfaz y menús,
+    que se colocan por encima del juego, con z-index 100 */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background--03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+
+    h1, h2 {
+        margin-bottom: 20px;
+        font-size: 3em;
+        color: var(--soft-red);
+    }
+
+    button {
+        padding: 15px 30px;
+        font-size: 1.2em;
+        background-color: var(--soft-red);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px;
+        transition: all 0.2s;
+
+        &:hover {
+            background-color: #f7484a;
+            transform: scale(1.05);
+        }
+
+        h3 {
+            margin-bottom: 10px;
+            color: var(--yellow);
+        }
+
+        .select-button {
+            margin-top: 15px;
+            background-color: var(--green);
+
+            &:hover {
+                background-color: rgb(46, 214, 147);
+            }
+        }
+    }
+}
+
+/* Al añadir esta clase a cualquier elemento, se oculta*/
+.hidden {
+    display: none;
+}
+
+
+/* -- TIENDA-- */
+/* Div que contiene las opciones de la tienda */
+#shop-options {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    margin: 30px 0;
+}
+
+/* Cada uno de las opciones de la tienda */
+.shop-option {
+    background-color: var(--background-01);
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    text-align: center;
+    border: 2px solid var(--border-color);
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: var(--text-color);
+        transform: scale(1.02);
+    }
+
+    h3 {
+        margin-bottom: 10px;
+        color: var(--text-color);
+    }
+}
+
+/* Al añadir la clase a una opción cambia el color del elemento para mostrar que se ha seleccionado */
+.selected{
+    background-color: var(--background--03);
+    border-color: var(--green);
+    color: var(--yellow);
+}
+
+
+/* -- INVENTARIO -- */
+/* Div que contiene las bolas del pachinko */
+#inventory {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+}
+
+/* Barra vertical sobre la que se dibujan las bolas en recarga */
+.inventory-bar {
+    width: 10px;
+    height: 100%;
+    background-color: var(--border-color);
+    position: absolute;
+    z-index: -1;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+
+/* Div que contiene las bolas. Se añaden en forma de filas a una columna vertical */
+#inventory-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+/* Cada una de las bolas en la barra lateral */
+.ball-slot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    overflow: hidden;
+
+    /* Texto (número) que representa el nivel de mejora de la bola */
+    .upgrade-count {
+        position: relative;
+        z-index: 2;
+        color: black;
+        font-size: large;
+    }
+}
+
+
+/* -- HUD -- */
+/*  Div que contiene todos los elementos de la interfaz,
+    Temporizador, Ronda, Puntuación y barra de vida */
+#hud {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--background--03);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 50;
+    display: flex;
+    gap: 20px;
+}
+
+/* <progress> que representa la vida del jugador */
+#health-bar {
+    appearance: none;
+    width: 100px;
+    height: 20px;
+    border-radius: 3px;
+    overflow: hidden;
+    
+    &::-webkit-progress-value {
+        background-color: var(--green);
+    }
+    
+    &::-webkit-progress-bar {
+        background-color: var(--border-color);
+    }
+}
